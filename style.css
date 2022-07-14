@@ -39,11 +39,18 @@ button {
     display: inline-flex;
     align-items: center;
     font-family: inherit;
-    background: none;
     font-size: 2rem;
-    border: 2px solid var(--dark-color);
+    background-color: var(--main-color);
+    border: none;
     border-radius: 10px;
     padding: 10px;
+}
+
+.selections {
+    width: 500px;
+    display: flex;
+    justify-content: space-around;
+
 }
 
 .grid-container {
