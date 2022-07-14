@@ -46,6 +46,10 @@ button {
     padding: 10px;
 }
 
+button:hover{
+    color: white;
+}
+
 .selections {
     width: 500px;
     display: flex;
@@ -55,17 +59,24 @@ button {
 
 .grid-container {
     background-color: var(--main-color);
-    width: 500px;
-    height: 500px;
+    /* width: 500px;
+    height: 500px; */
 
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat (3, 1fr);
+    grid-template-columns: repeat(3, 150px);
+    grid-template-rows: repeat(3, 150px);
     gap: 5px;
     margin: 10px;
 }
 
-.box {
+[data-box] {
     background-color: var(--bg-color);
+    font-size: 7rem;
+    text-align: center;
+}
+
+button,
+[data-box] {
+    cursor: pointer;
 }
 
