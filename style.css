@@ -50,13 +50,6 @@ button:hover{
     color: white;
 }
 
-.selections {
-    width: 500px;
-    display: flex;
-    justify-content: space-around;
-
-}
-
 .grid-container {
     background-color: var(--main-color);
     /* width: 500px;

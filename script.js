@@ -1,0 +1,1 @@
+const dataBoxes = document.querySelectorAll('[data-box]');
