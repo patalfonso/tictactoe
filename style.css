@@ -15,8 +15,8 @@ p {
 
 :root {
     --dark-color: #17252A;
-    --main-color: #2B7A78;
-    --bg-color: #3AAFA9;
+    --main-color: #64a494;
+    --bg-color: #76c2af;
     --light-color: #F4C095;
     --bright-color: #EE2E31;
 }
@@ -54,6 +54,7 @@ h1 {
 
 .restart {
     font-family: inherit;
+    color: inherit;
     font-size: 1.5rem;
     background-color: var(--main-color);
     border: none;
