@@ -62,14 +62,18 @@ button:hover{
     margin: 10px;
 }
 
-[data-box] {
+.cell {
     background-color: var(--bg-color);
     font-size: 7rem;
     text-align: center;
 }
 
 button,
-[data-box] {
+.cell {
     cursor: pointer;
+}
+
+.status {
+    font-size: 2rem;
 }
 
