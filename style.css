@@ -24,10 +24,26 @@ p {
 body {
     background-color: var(--bg-color);
     font-family: 'Fredoka One', cursive;
+    color: var(--dark-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+main {
+    display: flex;
+    gap: 200px;
+}
+
+.game,
+.profile {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+}
+
+.game {
     gap: 30px;
 }
 
@@ -37,8 +53,6 @@ h1 {
 }
 
 .restart {
-    /* display: inline-flex;
-    align-items: center; */
     font-family: inherit;
     font-size: 1.5rem;
     background-color: var(--main-color);
@@ -67,7 +81,8 @@ h1 {
 }
 
 .restart,
-.cell {
+.cell,
+span {
     cursor: pointer;
 }
 
@@ -88,6 +103,10 @@ h1 {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+}
+
+.deactivate {
+    visibility: hidden;
 }
 
 h2 {
@@ -113,4 +132,10 @@ span {
 img {
     width: 200px;
     height: auto;
+}
+
+.profile p:last-child {
+    margin-top: 10px;
+    color: white;
+    font-size: 3rem;
 }
