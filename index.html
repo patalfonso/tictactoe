@@ -9,19 +9,38 @@
     <script src="./script.js" defer></script>
 </head>
 <body>
-    <h1>TIC TAC TOE</h1>
-    <div class="grid-container">
-        <div class="cell" data-cell="0"></div>
-        <div class="cell" data-cell="1"></div>
-        <div class="cell" data-cell="2"></div>
-        <div class="cell" data-cell="3"></div>
-        <div class="cell" data-cell="4"></div>
-        <div class="cell" data-cell="5"></div>
-        <div class="cell" data-cell="6"></div>
-        <div class="cell" data-cell="7"></div>
-        <div class="cell" data-cell="8"></div>
+    <div class="menu">
+        <div class="introduction">
+            <h1>Welcome to TIC TAC TOE</h1>
+            <h2>Choose your opponent</h2>
+        </div>
+
+        <div class="opponents">
+            <span>
+                <img src="./img/person.svg" class="opponent" alt="player">
+                <p>Player</p>
+            </span>
+            <span>
+                <img src="./img/computer.svg" class="opponent" alt="computer">
+                <p>Computer</p>
+            </span>
+        </div>
     </div>
-    <div class="status">It's your turn, Player 1</div>
-    <button>Restart</button>
-</body>
+    <main>
+        <h1>TIC TAC TOE</h1>
+        <div class="grid-container">
+            <div class="cell" data-cell="0"></div>
+            <div class="cell" data-cell="1"></div>
+            <div class="cell" data-cell="2"></div>
+            <div class="cell" data-cell="3"></div>
+            <div class="cell" data-cell="4"></div>
+            <div class="cell" data-cell="5"></div>
+            <div class="cell" data-cell="6"></div>
+            <div class="cell" data-cell="7"></div>
+            <div class="cell" data-cell="8"></div>
+        </div>
+        <div class="status"></div>
+        <button class="restart">Restart</button>
+        </body>
+    </main>
 </html>
