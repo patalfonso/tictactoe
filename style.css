@@ -28,19 +28,41 @@ body {
     color: var(--dark-color);
 }
 
+p,
+button,
+label,
+input {
+    font-size: 1.5rem;
+}
+
+button {
+    font-family: inherit;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 25px;
+}
+
+.restart,
+.cell,
+span,
+.submit,
+label {
+    cursor: pointer;
+}
+
+/* MENU SCREEN */
+
 main,
 .menu {
     height: 100%;
     width: 100%;
 }
 
-main {
-    display: flex;
-}
-
-.profile,
-.game {
-    flex: 1 1 auto;
+.menu {
+    position: fixed;
+    background-color: white;
+    color: inherit;
+    text-align: center;
 }
 
 .game,
@@ -52,27 +74,100 @@ main {
     justify-content: center;
 }
 
-.game {
-    gap: 30px;
-}
-
 h1 {
     color: var(--dark-color);
     font-size: 4rem;
 }
 
-.restart {
-    font-family: inherit;
-    color: inherit;
-    font-size: 1.5rem;
-    background-color: var(--main-color);
-    border: none;
-    border-radius: 10px;
-    padding: 10px;
+h2,
+legend {
+    font-size: 2rem;
+    font-weight: 300;
+    margin-bottom: 60px;
 }
 
-.restart:hover {
+.deactivate {
+    visibility: hidden;
+}
+
+/* SUB-MENU: Choose Opponent */
+
+.opponents {
+    display: flex;
+    gap: 80px;
+}
+
+img {
+    width: 200px;
+    height: auto;
+}
+
+.profile p:last-child {
     color: white;
+    font-size: 3rem;
+}
+
+/* SUB-MENU: Player Names */
+
+input,
+label {
+    display: block;
+    font-family: inherit;
+}
+
+#playerNameForm input {
+    border: none;
+    border-bottom: 2px solid white;
+    outline: none;
+    padding: 10px;
+    text-align: center;
+    color: var(--bright-color);
+}
+
+#playerNameForm input:focus {
+    border-bottom: 2px solid var(--dark-color);
+}
+
+#playerNameForm div ~ div {
+    margin-top: 30px;
+}
+
+.submit {
+    margin-top: 60px;
+    color: white;
+    background-color: var(--dark-color);
+}
+
+/* SUB-MENU: Difficulty */
+
+input[type="radio"] {
+    display: none;
+}
+
+#difficultyForm > label {
+    padding: 2em;
+    display: inline-block;
+}
+
+input[type="radio"]:checked + label {
+    background: var(--hover-color);
+    color: #fff;
+  }
+  
+
+/* MAIN GAME */
+
+main {
+    display: flex;
+}
+
+.game {
+    gap: 30px;
+}
+
+.profile,
+.game {
+    flex: 1 1 auto;
 }
 
 .grid-container {
@@ -90,54 +185,16 @@ h1 {
     text-align: center;
 }
 
-.restart,
-.cell,
-span {
-    cursor: pointer;
-}
-
 .status {
     font-size: 2rem;
     height: 2rem;
 }
 
-.menu {
-    position: fixed;
-    background-color: white;
+.restart {
     color: inherit;
-    text-align: center;
+    background-color: var(--main-color);
 }
 
-.deactivate {
-    visibility: hidden;
-}
-
-h2 {
-    font-size: 2rem;
-    font-weight: 300;
-}
-
-p {
-    font-size: 1.5rem;
-}
-
-.opponents {
-    display: flex;
-    gap: 80px;
-    margin-top: 60px;
-}
-
-img {
-    width: 200px;
-    height: auto;
-}
-
-.profile p:last-child {
-    margin-top: 10px;
+.restart:hover {
     color: white;
-    font-size: 3rem;
-}
-
-b {
-    color: var(--bright-color);
 }

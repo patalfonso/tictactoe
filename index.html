@@ -11,21 +11,61 @@
 </head>
 <body>
     <div class="menu">
-        <div class="introduction">
-            <h1>TIC TAC TOE</h1>
+        <h1>TIC TAC TOE</h1>
+    
+        <div class="sub-menu chooose-opponent">
             <h2>Choose your opponent</h2>
+            <div class="opponents">
+                <span class="hvr-bob player">
+                    <img src="./img/person.svg" alt="player">
+                    <p>Player</p>
+                </span>
+                <span class="hvr-bob computer">
+                    <img src="./img/computer.svg" alt="computer">
+                    <p>Computer</p>
+                </span>
+            </div>
         </div>
 
-        <div class="opponents">
-            <span class="hvr-bob player">
-                <img src="./img/person.svg" alt="player">
-                <p>Player</p>
-            </span>
-            <span class="hvr-bob computer">
-                <img src="./img/computer.svg" alt="computer">
-                <p>Computer</p>
-            </span>
+        <div class="sub-menu player-names" hidden>
+            <h2>Name Players</h2>
+            <form id="playerNameForm">
+                <div>
+                    <label for="player1">First Player's Name</label>
+                    <input type="text" name="player1" id="player1" value="Player 1">
+                </div>
+
+                <div>
+                    <label for="player2">Second Player's Name</label>
+                    <input type="text" name="player2" id="player2" value="Player 2">
+                </div>
+
+                <button class="submit">Start Game</button>
+            </form>
         </div>
+
+        <div class="sub-menu difficulty" hidden>
+            <h2>Game Difficulty</h2>
+            <form id="difficultyForm">
+                <div>
+                    <input type="radio" name="game-mode" id="easy" value="easy">
+                    <label for="easy">Easy</label>
+                </div>
+
+                <div>
+                    <input type="radio" name="game-mode" id="medium" value="medium" checked>
+                    <label for="medium">Medium</label>
+                </div>
+
+                <div>
+                    <input type="radio" name="game-mode" id="hard" value="hard">
+                    <label for="hard">Hard</label>
+
+                    <button class="submit">Start Game</button>
+                </div>
+            </form>
+        </div>
+
     </div>
 
     <main>
