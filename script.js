@@ -4,7 +4,7 @@ const playerFactory = (name, sign) => {
     return {name, sign};
 }
 
-//Module Pattern IIFE: Main Logic of Game
+//Module Pattern IIFE: Game Board Initialization
 const gameBoard = (function() {
 
     // Create player objects
@@ -31,6 +31,7 @@ const gameBoard = (function() {
 
 })();
 
+// Module Pattern IIFE: Game Status Messages
 const gameMessage = (function() {
     const statusMsg = document.querySelector('.status');
 
@@ -43,7 +44,7 @@ const gameMessage = (function() {
     return {statusMsg, winningMessage, drawMessage, currentPlayerTurn};
 })();
 
-//Module Pattern IIFE: Display Game/Manipulate DOM
+//Module Pattern IIFE: Display Game
 const gameController = (function() {
     const allCells = document.querySelectorAll('.cell');
 
@@ -117,6 +118,7 @@ const gameController = (function() {
     return {allCells}
 })();
 
+// Module Pattern IIFE: Restart Button
 const gameRestart = (function() {
     document.querySelector('.restart').addEventListener("click", function() {
         gameBoard.gameActive = true;
