@@ -1,7 +1,24 @@
 // MENU SCREEN
-const opponents = document.querySelectorAll('span');
+const playerMode = document.querySelector('.player');
+const computerMode = document.querySelector('.computer');
+const gameModes = document.querySelectorAll('span');
 const menu = document.querySelector('.menu');
-opponents.forEach((opponent) => opponent.addEventListener("click", function() {menu.classList.add('deactivate')}));
+const subMenus = document.querySelectorAll('.sub-menu');
+const chooseOpponentMenu = document.querySelector('.choose-opponent');
+const playerNamesMenu = document.querySelector('.player-names');
+const difficultyMenu = document.querySelector('.difficulty');
+// opponents.forEach((opponent) => opponent.addEventListener("click", function() {menu.classList.add('deactivate')}));
+
+playerMode.addEventListener("click", function() {
+    chooseOpponentMenu.setAttribute("hidden", "");
+    playerNamesMenu.removeAttribute("hidden");
+})
+
+computerMode.addEventListener("click", function() {
+    chooseOpponentMenu.setAttribute("hidden", "");
+    difficultyMenu.removeAttribute("hidden");
+    
+})
 
 // MAIN GAME
 const allCells = document.querySelectorAll('.cell');
@@ -82,7 +99,7 @@ function checkResults() {
         let a = gameBoard[winCondition[0]];
         let b = gameBoard[winCondition[1]];
         let c = gameBoard[winCondition[2]];
-        if (a === '' || b === '' || c === '') {
+        if (a === '' || b === '' || c === '') {urrentPlaye
             continue;
         }
         if (a === b && b === c) {
