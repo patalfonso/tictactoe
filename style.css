@@ -15,7 +15,7 @@ p {
 
 :root {
     --dark-color: #17252A;
-    --hover-color: #4b5b73;
+    --hover-color: #727d8f;
     --main-color: #64a494;
     --bg-color: #76c2af;
     --light-color: #F4C095;
@@ -136,4 +136,8 @@ img {
     margin-top: 10px;
     color: white;
     font-size: 3rem;
+}
+
+b {
+    color: var(--bright-color);
 }
