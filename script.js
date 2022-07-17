@@ -6,12 +6,9 @@ const playerFactory = (name, sign) => {
 
 //Module Pattern IIFE: Game Board Initialization
 const gameBoard = (function() {
-
-    // Create player objects
     const player1 = playerFactory('Player 1', 'X');
     const player2 = playerFactory('Player 2', 'O');
 
-    // Initialize game state
     let gameActive = true;
     let currentPlayer = player1;
     let gameState = ['', '', '', '', '', '', '', '', ''];
@@ -28,7 +25,6 @@ const gameBoard = (function() {
     ];
 
     return {player1, player2, currentPlayer, gameActive, gameState, winningConditions}
-
 })();
 
 // Module Pattern IIFE: Game Status Messages
@@ -46,34 +42,13 @@ const gameMessage = (function() {
 
 //Module Pattern IIFE: Display Game
 const gameController = (function() {
-    const allCells = document.querySelectorAll('.cell');
-
-    allCells.forEach((cell) => cell.addEventListener("click", handleCellClick));
-
-    function handleCellClick(e) {
-        // Stores node of clicked cell
-        const clickedCell = e.target;
-        // Stores node's data-cell property's value
-        const clickedCellIndex = parseInt(clickedCell.getAttribute('data-cell'));
-        // Break out of function if cell has been played or if game is inactive
-        if (gameBoard.gameState[clickedCellIndex] !== "" || !gameBoard.gameActive) return;
-        // Stores currentPlayer's sign in array and displays in UI
-        registerCellPlayed(clickedCell, clickedCellIndex);
-        // Check for winner and/or change currentPlayer
-        checkResults();
-    }
-
-    function registerCellPlayed(clickedCell, clickedCellIndex) {
-        // Stores currentPlayer's sign in gameState array
+    const _registerCellPlayed = (clickedCell, clickedCellIndex) => {
         gameBoard.gameState[clickedCellIndex] = gameBoard.currentPlayer.sign;
-        // Display currentPlayer's sign in the UI
         clickedCell.textContent = gameBoard.currentPlayer.sign;
-    
     }
-    
-    function checkResults() {
-        // Check for winner
-        let roundWon = false;
+
+    const _checkResults = () => {
+        let _roundWon = false;
         for (let i = 0; i <= 7; i++) {
             const winCondition = gameBoard.winningConditions[i];
             let a = gameBoard.gameState[winCondition[0]];
@@ -83,37 +58,41 @@ const gameController = (function() {
                 continue;
             }
             if (a === b && b === c) {
-                roundWon = true;
+                _roundWon = true;
                 break
             }
         }
     
-        // If there is winner, display winningMessage and make game inactive
-        if (roundWon) {
+        if (_roundWon) {
                 gameMessage.statusMsg.textContent = gameMessage.winningMessage();
                 gameBoard.gameActive = false;
                 return;
         }
     
-        // If there is a draw, display drawMessage and make game inactive
-        let roundDraw = !gameBoard.gameState.includes("");
-        if (roundDraw) {
+        let _roundDraw = !gameBoard.gameState.includes("");
+        if (_roundDraw) {
             gameMessage.statusMsg.textContent = gameMessage.drawMessage();
             gameBoard.gameActive = false;
             return;
         }
     
-        // Change currentPlayer
-        changeCurrentPlayer();
+        _changeCurrentPlayer();
     }
-    
-    function changeCurrentPlayer() {
-        // Re-assigns currentPlayer variable
+
+    const _changeCurrentPlayer = () => {
         gameBoard.currentPlayer = (gameBoard.currentPlayer === gameBoard.player1 ) ? gameBoard.player2 : gameBoard.player1;
-        // Updates currentPlayerTurn message
         gameMessage.statusMsg.textContent = gameMessage.currentPlayerTurn();
-    
     }
+
+    const allCells = document.querySelectorAll('.cell');
+    allCells.forEach((cell) => cell.addEventListener("click", (e) => {
+            const clickedCell = e.target;
+            const clickedCellIndex = parseInt(clickedCell.getAttribute('data-cell'));
+            if (gameBoard.gameState[clickedCellIndex] !== "" || !gameBoard.gameActive) return;
+            _registerCellPlayed(clickedCell, clickedCellIndex);
+            _checkResults();
+        }
+    ));
 
     return {allCells}
 })();
