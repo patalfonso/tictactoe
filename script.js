@@ -1,3 +1,27 @@
+const playerMode = document.querySelector('.player');
+const chooseOpponentMenu = document.querySelector('.choose-opponent');
+const playerNamesMenu = document.querySelector('.player-names');
+const playerNameForm = document.querySelector('#playerNameForm');
+const yourName = document.querySelector('.your-name');
+const theirName = document.querySelector('.opponent-name');
+const menu = document.querySelector('.menu');
+
+playerMode.addEventListener("click", function() {
+    chooseOpponentMenu.setAttribute('hidden', '');
+    playerNamesMenu.removeAttribute('hidden');
+})
+
+playerNameForm.addEventListener("submit", function(e) {
+    e.preventDefault();
+    const player1Name = document.querySelector('[name="player1"]').value;
+    const player2Name = document.querySelector('[name="player2"]').value;
+
+    yourName.textContent = player1Name;
+    theirName.textContent = player2Name;
+    
+    menu.classList.add('deactivate');
+
+})
 
 //FACTORY FUNCTION: Player Objects
 const playerFactory = (name, sign) => {
