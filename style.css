@@ -44,7 +44,7 @@ button {
 
 .restart,
 .cell,
-span,
+.player,
 .submit,
 label {
     cursor: pointer;
@@ -105,6 +105,10 @@ img {
 .profile p:last-child {
     color: white;
     font-size: 3rem;
+}
+
+.computer img {
+    filter: grayscale(1);
 }
 
 /* SUB-MENU: Player Names */
