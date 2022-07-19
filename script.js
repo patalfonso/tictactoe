@@ -89,18 +89,11 @@ const gameBoard = (function() {
             }
         }
 
-        // If there is winner, display winningMessage, deactivate game, and exit out of function
-        if (roundWon) {
-                statusMsg.textContent = winningMessage();
-                gameActive = false;
-                return;
-        }
-
-        // If there is a draw, display drawMessage, deactivate game, and exit out of function
         let roundDraw = !gameBoard.includes("");
-        if (roundDraw) {
-            statusMsg.textContent = drawMessage();
+        if (roundWon || roundDraw) {
+            statusMsg.style.cssText = 'color: var(--bright-color)';
             gameActive = false;
+            statusMsg.textContent = (roundWon) ? winningMessage() : drawMessage();
             return;
         }
 
@@ -120,6 +113,7 @@ const gameBoard = (function() {
         gameActive = true;
         currentPlayer = player1;
         gameBoard = ["", "", "", "", "", "", "", "", ""];
+        statusMsg.style.cssText = 'color: var(--dark-color)';
         statusMsg.textContent = currentPlayerTurn();
         allCells.forEach(cell => cell.textContent = "");
     }
