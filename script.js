@@ -1,42 +1,20 @@
-const playerMode = (function() {
-    const playerModeBtn = document.querySelector('.player');
-    const chooseOpponentMenu = document.querySelector('.choose-opponent');
-    const playerNamesMenu = document.querySelector('.player-names');
-    const playerNameForm = document.querySelector('#playerNameForm');
-    const yourName = document.querySelector('.your-name');
-    const theirName = document.querySelector('.opponent-name');
-    const menu = document.querySelector('.menu');
 
-    playerModeBtn.addEventListener("click", function() {
-        chooseOpponentMenu.setAttribute('hidden', '');
-        playerNamesMenu.removeAttribute('hidden');
-    })
-
-    playerNameForm.addEventListener("submit", function(e) {
-        e.preventDefault();
-        const player1Name = document.querySelector('[name="player1"]').value;
-        const player2Name = document.querySelector('[name="player2"]').value;
-
-        yourName.textContent = player1Name;
-        theirName.textContent = player2Name;
-        
-        menu.classList.add('deactivate');
-    })
-})();
-
-//FACTORY FUNCTION: Player Objects
+//Factory function for player objects
 const playerFactory = (name, sign) => {
     return {name, sign};
 }
 
-//Module Pattern IIFE: Game Board Initialization
 const gameBoard = (function() {
+    const allCells = document.querySelectorAll('.cell');
+    const statusMsg = document.querySelector('.status');
+    const restartBtn = document.querySelector('.restart');
+
     const player1 = playerFactory('Player 1', 'X');
     const player2 = playerFactory('Player 2', 'O');
 
     let gameActive = true;
     let currentPlayer = player1;
-    let gameState = ['', '', '', '', '', '', '', '', ''];
+    let gameBoard = ['', '', '', '', '', '', '', '', ''];
 
     const winningConditions = [
         [0, 1, 2],
@@ -49,86 +27,75 @@ const gameBoard = (function() {
         [2, 4, 6]
     ];
 
-    return {player1, player2, currentPlayer, gameActive, gameState, winningConditions}
-})();
-
-// Module Pattern IIFE: Game Status Messages
-const gameMessage = (function() {
-    const statusMsg = document.querySelector('.status');
-
-    const winningMessage = () => `${gameBoard.currentPlayer.name} has won!`;
+    const winningMessage = () => `${currentPlayer.name} has won!`;
     const drawMessage = () => `Game ended in a draw!`;
-    const currentPlayerTurn = () => `It's ${gameBoard.currentPlayer.name}'s turn`;
+    const currentPlayerTurn = () => `It's ${currentPlayer.name}'s turn`;
 
     statusMsg.textContent = currentPlayerTurn();
+    allCells.forEach((cell) => cell.addEventListener("click", handleCellClick));
 
-    return {statusMsg, winningMessage, drawMessage, currentPlayerTurn};
-})();
-
-//Module Pattern IIFE: Display Game
-const gameController = (function() {
-    const _registerCellPlayed = (clickedCell, clickedCellIndex) => {
-        gameBoard.gameState[clickedCellIndex] = gameBoard.currentPlayer.sign;
-        clickedCell.textContent = gameBoard.currentPlayer.sign;
+    function handleCellClick(e) {
+        const clickedCell = e.target;
+        const clickedCellIndex = parseInt(clickedCell.getAttribute('data-cell'));
+        if (gameBoard[clickedCellIndex] !== "" || !gameActive) return;
+        registerCellPlayed(clickedCell, clickedCellIndex);
+        checkResults();
     }
 
-    const _checkResults = () => {
-        let _roundWon = false;
+    function registerCellPlayed(clickedCell, clickedCellIndex) {
+        gameBoard[clickedCellIndex] = clickedCell.textContent = currentPlayer.sign;
+
+    }
+    
+    function checkResults() {
+        let roundWon = false;
         for (let i = 0; i <= 7; i++) {
-            const winCondition = gameBoard.winningConditions[i];
-            let a = gameBoard.gameState[winCondition[0]];
-            let b = gameBoard.gameState[winCondition[1]];
-            let c = gameBoard.gameState[winCondition[2]];
+            const winCondition = winningConditions[i];
+            let a = gameBoard[winCondition[0]];
+            let b = gameBoard[winCondition[1]];
+            let c = gameBoard[winCondition[2]];
             if (a === '' || b === '' || c === '') {
                 continue;
             }
             if (a === b && b === c) {
-                _roundWon = true;
+                roundWon = true;
                 break
             }
         }
-    
-        if (_roundWon) {
-                gameMessage.statusMsg.textContent = gameMessage.winningMessage();
-                gameBoard.gameActive = false;
+
+        // If there is winner, display winningMessage, deactivate game, and exit out of function
+        if (roundWon) {
+                statusMsg.textContent = winningMessage();
+                gameActive = false;
                 return;
         }
-    
-        let _roundDraw = !gameBoard.gameState.includes("");
-        if (_roundDraw) {
-            gameMessage.statusMsg.textContent = gameMessage.drawMessage();
-            gameBoard.gameActive = false;
+
+        // If there is a draw, display drawMessage, deactivate game, and exit out of function
+        let roundDraw = !gameBoard.includes("");
+        if (roundDraw) {
+            statusMsg.textContent = drawMessage();
+            gameActive = false;
             return;
         }
-    
-        _changeCurrentPlayer();
+
+        // Change currentPlayer ONLY if it doesn't have a winner or a draw
+        changeCurrentPlayer();
     }
 
-    const _changeCurrentPlayer = () => {
-        gameBoard.currentPlayer = (gameBoard.currentPlayer === gameBoard.player1 ) ? gameBoard.player2 : gameBoard.player1;
-        gameMessage.statusMsg.textContent = gameMessage.currentPlayerTurn();
+    function changeCurrentPlayer() {
+        currentPlayer = (currentPlayer === player1 ) ? player2 : player1;
+        statusMsg.textContent = currentPlayerTurn();
+
+    } 
+
+    restartBtn.addEventListener("click", restartGame);
+
+    function restartGame() {
+        gameActive = true;
+        currentPlayer = player1;
+        gameBoard = ["", "", "", "", "", "", "", "", ""];
+        statusMsg.textContent = currentPlayerTurn();
+        allCells.forEach(cell => cell.textContent = "");
     }
-
-    const allCells = document.querySelectorAll('.cell');
-    allCells.forEach((cell) => cell.addEventListener("click", (e) => {
-            const clickedCell = e.target;
-            const clickedCellIndex = parseInt(clickedCell.getAttribute('data-cell'));
-            if (gameBoard.gameState[clickedCellIndex] !== "" || !gameBoard.gameActive) return;
-            _registerCellPlayed(clickedCell, clickedCellIndex);
-            _checkResults();
-        }
-    ));
-
-    return {allCells}
 })();
 
-// Module Pattern IIFE: Restart Button
-const gameRestart = (function() {
-    document.querySelector('.restart').addEventListener("click", function() {
-        gameBoard.gameActive = true;
-        gameBoard.currentPlayer = gameBoard.player1;
-        gameBoard.gameState = ["", "", "", "", "", "", "", "", ""];
-        gameMessage.statusMsg.textContent = gameMessage.currentPlayerTurn();
-        gameController.allCells.forEach(cell => cell.textContent = "");
-    });
-})();
