@@ -4,13 +4,44 @@ const playerFactory = (name, sign) => {
     return {name, sign};
 }
 
-const gameBoard = (function() {
+const menuScreen = (function() {
+    const playerModeBtn = document.querySelector('.player');
+    const mainMenu = document.querySelector('.menu');
+    const chooseOpponentMenu = document.querySelector('.choose-opponent');
+    const playerNamesMenu = document.querySelector('.player-names');
+
+    playerModeBtn.addEventListener("click", function() {
+        chooseOpponentMenu.setAttribute('hidden', '');
+        playerNamesMenu.removeAttribute('hidden');
+
+    })
+
+    const playerNamesForm = document.querySelector('#playerNamesForm');
+    const yourName = document.querySelector('.your-name');
+    const theirName = document.querySelector('.opponent-name');
+
+    playerNamesForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const player1Name = yourName.textContent = document.querySelector('[name="player1"]').value;
+        const player2Name = theirName.textContent = document.querySelector('[name="player2"]').value;
+    
+        const player1 = playerFactory(player1Name, 'X');
+        const player2 = playerFactory(player2Name, 'O');
+        
+        mainMenu.classList.add('deactivate');
+        gameBoard(player1, player2);
+    })
+
+})();
+
+const gameBoard = function(player1, player2) {
     const allCells = document.querySelectorAll('.cell');
     const statusMsg = document.querySelector('.status');
     const restartBtn = document.querySelector('.restart');
 
-    const player1 = playerFactory('Player 1', 'X');
-    const player2 = playerFactory('Player 2', 'O');
+    // const player1 = playerFactory('Player 1', 'X');
+    // const player2 = playerFactory('Player 2', 'O');
 
     let gameActive = true;
     let currentPlayer = player1;
@@ -97,5 +128,5 @@ const gameBoard = (function() {
         statusMsg.textContent = currentPlayerTurn();
         allCells.forEach(cell => cell.textContent = "");
     }
-})();
+};
 

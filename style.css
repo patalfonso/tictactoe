@@ -41,11 +41,9 @@ button {
     border-radius: 10px;
     padding: 10px 25px;
 }
-
-.restart,
 .cell,
 .player,
-.submit,
+button,
 label {
     cursor: pointer;
 }
@@ -119,7 +117,7 @@ label {
     font-family: inherit;
 }
 
-#playerNameForm input {
+#playerNamesForm input {
     border: none;
     border-bottom: 2px solid white;
     outline: none;
@@ -128,11 +126,11 @@ label {
     color: var(--bright-color);
 }
 
-#playerNameForm input:focus {
+#playerNamesForm input:focus {
     border-bottom: 2px solid var(--dark-color);
 }
 
-#playerNameForm div ~ div {
+#playerNamesForm div ~ div {
     margin-top: 30px;
 }
 
@@ -194,11 +192,20 @@ main {
     height: 2rem;
 }
 
-.restart {
-    color: inherit;
+.restart,
+.back {
+    color: white;
     background-color: var(--main-color);
 }
 
-.restart:hover {
-    color: white;
+.restart:hover,
+.back:hover {
+    color: var(--dark-color);
+    background-color: white;
+}
+
+
+.buttons {
+    display: flex;
+    gap: 20px;
 }
