@@ -1,2 +1,6 @@
 # tictactoe
 Project: Tic Tac Toe from TheOdinProject
+
+This is the eight project assigned by The Odin Project. We are to create a Tic Tac Toe web app that allows users to input their names and play with another user. The main purpose of this project was to consolidate my understanding of factory functions and the module pattern. This is the project that I dreaded working on the most because for a while I could not think of a way to check for the results. I found the instructions of the project a bit confusing. I didn't see the purpose of creating multiple IIFE's when I could just put it all under one anonymous function. But I did keep the player object function seperate from the IIFE as I was going to use it more than once to generate my players. I feel like the UI of my game app is very modern and aligns with the simplictic aesthetic of modern websites of today.
+
+My favorite feature would have to be the menu screen I implemented. Depending on the user's choice of opponent, it will either direct them to the "Name players" sub-menu or "Choose difficulty" sub-menu. I have yet to make an AI opponent so as of now I have the latter disabled. In the future, I'd like to refactor my code to be more responsive with smaller screens, particularly mobile phones. As well as more complex animations in the game that better displays the winning move.
