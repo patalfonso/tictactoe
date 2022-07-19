@@ -4,44 +4,22 @@ const playerFactory = (name, sign) => {
     return {name, sign};
 }
 
-const menuScreen = (function() {
+const gameBoard = (function() {
+    // DOM NODES
     const playerModeBtn = document.querySelector('.player');
     const mainMenu = document.querySelector('.menu');
     const chooseOpponentMenu = document.querySelector('.choose-opponent');
     const playerNamesMenu = document.querySelector('.player-names');
-
-    playerModeBtn.addEventListener("click", function() {
-        chooseOpponentMenu.setAttribute('hidden', '');
-        playerNamesMenu.removeAttribute('hidden');
-
-    })
-
     const playerNamesForm = document.querySelector('#playerNamesForm');
     const yourName = document.querySelector('.your-name');
     const theirName = document.querySelector('.opponent-name');
-
-    playerNamesForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-
-        const player1Name = yourName.textContent = document.querySelector('[name="player1"]').value;
-        const player2Name = theirName.textContent = document.querySelector('[name="player2"]').value;
-    
-        const player1 = playerFactory(player1Name, 'X');
-        const player2 = playerFactory(player2Name, 'O');
-        
-        mainMenu.classList.add('deactivate');
-        gameBoard(player1, player2);
-    })
-
-})();
-
-const gameBoard = function(player1, player2) {
     const allCells = document.querySelectorAll('.cell');
     const statusMsg = document.querySelector('.status');
     const restartBtn = document.querySelector('.restart');
 
-    // const player1 = playerFactory('Player 1', 'X');
-    // const player2 = playerFactory('Player 2', 'O');
+    // Initialize
+    let player1 = playerFactory("Player 1", 'X');
+    let player2 = playerFactory("Player 2", 'O');
 
     let gameActive = true;
     let currentPlayer = player1;
@@ -58,11 +36,28 @@ const gameBoard = function(player1, player2) {
         [2, 4, 6]
     ];
 
+    // Status messages
     const winningMessage = () => `${currentPlayer.name} has won!`;
     const drawMessage = () => `Game ended in a draw!`;
     const currentPlayerTurn = () => `It's ${currentPlayer.name}'s turn`;
 
-    statusMsg.textContent = currentPlayerTurn();
+    playerModeBtn.addEventListener("click", function() {
+        chooseOpponentMenu.setAttribute('hidden', '');
+        playerNamesMenu.removeAttribute('hidden');
+
+    })
+
+    playerNamesForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        player1.name = yourName.textContent = document.querySelector('[name="player1"]').value;
+        player2.name = theirName.textContent = document.querySelector('[name="player2"]').value;
+
+        statusMsg.textContent = currentPlayerTurn();
+        
+        mainMenu.classList.add('deactivate');
+    })
+
     allCells.forEach((cell) => cell.addEventListener("click", handleCellClick));
 
     function handleCellClick(e) {
@@ -128,5 +123,5 @@ const gameBoard = function(player1, player2) {
         statusMsg.textContent = currentPlayerTurn();
         allCells.forEach(cell => cell.textContent = "");
     }
-};
+})();
 
