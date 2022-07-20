@@ -58,12 +58,34 @@ const gameBoard = (function() {
         mainMenu.classList.add('deactivate');
     })
 
+    allCells.forEach((cell) => cell.addEventListener('mouseenter', handleCellHover));
+
+    function handleCellHover(e) {
+        const clickedCell = e.target;
+        const clickedCellIndex = parseInt(clickedCell.getAttribute('data-cell'));
+        if (gameBoard[clickedCellIndex] !== "" || !gameActive) return;
+        clickedCell.classList.add('hover');
+        clickedCell.textContent = currentPlayer.sign;
+    }
+
+    allCells.forEach((cell) => cell.addEventListener('mouseleave', handleCellHoverLeave));
+
+    function handleCellHoverLeave(e) {
+        const clickedCell = e.target;
+        const clickedCellIndex = parseInt(clickedCell.getAttribute('data-cell'));
+        if (gameBoard[clickedCellIndex] !== "" || !gameActive) return;
+        clickedCell.classList.remove('hover');
+        clickedCell.textContent = '';
+    }
+
+
     allCells.forEach((cell) => cell.addEventListener("click", handleCellClick));
 
     function handleCellClick(e) {
         const clickedCell = e.target;
         const clickedCellIndex = parseInt(clickedCell.getAttribute('data-cell'));
         if (gameBoard[clickedCellIndex] !== "" || !gameActive) return;
+        clickedCell.classList.remove('hover');
         registerCellPlayed(clickedCell, clickedCellIndex);
         checkResults();
     }

@@ -18,7 +18,6 @@ p {
     --hover-color: #727d8f;
     --main-color: #64a494;
     --bg-color: #76c2af;
-    --light-color: #F4C095;
     --bright-color: #EE2E31;
 }
 
@@ -183,8 +182,13 @@ main {
 
 .cell {
     background-color: var(--bg-color);
+    color: var(--dark-color);
     font-size: 7rem;
     text-align: center;
+}
+
+.hover{
+    color: var(--main-color);
 }
 
 .status {
