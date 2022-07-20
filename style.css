@@ -194,6 +194,8 @@ main {
 
 .restart,
 .back {
+    display: inline;
+    margin: 0 6px;
     color: white;
     background-color: var(--main-color);
 }
@@ -202,10 +204,4 @@ main {
 .back:hover {
     color: var(--dark-color);
     background-color: white;
-}
-
-
-.buttons {
-    display: flex;
-    gap: 20px;
 }
