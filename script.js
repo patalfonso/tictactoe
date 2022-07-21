@@ -1,11 +1,8 @@
-
-//Factory function for player objects
 const playerFactory = (name, sign) => {
     return {name, sign};
 }
 
 const gameBoard = (function() {
-    // DOM NODES
     const playerModeBtn = document.querySelector('.player');
     const mainMenu = document.querySelector('.menu');
     const chooseOpponentMenu = document.querySelector('.choose-opponent');
@@ -17,7 +14,6 @@ const gameBoard = (function() {
     const statusMsg = document.querySelector('.status');
     const restartBtn = document.querySelector('.restart');
 
-    // Initialize
     let player1 = playerFactory("Player 1", 'X');
     let player2 = playerFactory("Player 2", 'O');
 
@@ -119,7 +115,6 @@ const gameBoard = (function() {
             return;
         }
 
-        // Change currentPlayer ONLY if it doesn't have a winner or a draw
         changeCurrentPlayer();
     }
 
