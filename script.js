@@ -41,7 +41,7 @@ const gameBoard = (function() {
         chooseOpponentMenu.setAttribute('hidden', '');
         playerNamesMenu.removeAttribute('hidden');
 
-    })
+    });
 
     playerNamesForm.addEventListener('submit', function(e) {
         e.preventDefault();
@@ -52,43 +52,32 @@ const gameBoard = (function() {
         statusMsg.textContent = currentPlayerTurn();
         
         mainMenu.classList.add('deactivate');
-    })
+    });
 
-    allCells.forEach((cell) => cell.addEventListener('mouseenter', handleCellHover));
+    ['mouseenter', 'mouseleave', 'click'].forEach((event) => {
+        allCells.forEach((cell) => cell.addEventListener(event, handleCell));
+    });
 
-    function handleCellHover(e) {
-        const clickedCell = e.target;
-        const clickedCellIndex = parseInt(clickedCell.getAttribute('data-cell'));
-        if (gameBoard[clickedCellIndex] !== "" || !gameActive) return;
-        clickedCell.classList.add('hover');
-        clickedCell.textContent = currentPlayer.sign;
-    }
+    function handleCell(e) {
+        const cellNode = e.target;
+        const cellNodeIndex = parseInt(cellNode.getAttribute('data-cell'));
+        if (gameBoard[cellNodeIndex] !== "" || !gameActive) return;
 
-    allCells.forEach((cell) => cell.addEventListener('mouseleave', handleCellHoverLeave));
+        switch(e.type) {
+            case "mouseenter":
+                cellNode.classList.add('hover');
+                cellNode.textContent = currentPlayer.sign;
+                break;
+            case "mouseleave":
+                cellNode.classList.remove('hover');
+                cellNode.textContent = '';
+                break;
+            default: 
+                cellNode.classList.remove('hover');
+                gameBoard[cellNodeIndex] = cellNode.textContent = currentPlayer.sign;
+                checkResults();
 
-    function handleCellHoverLeave(e) {
-        const clickedCell = e.target;
-        const clickedCellIndex = parseInt(clickedCell.getAttribute('data-cell'));
-        if (gameBoard[clickedCellIndex] !== "" || !gameActive) return;
-        clickedCell.classList.remove('hover');
-        clickedCell.textContent = '';
-    }
-
-
-    allCells.forEach((cell) => cell.addEventListener("click", handleCellClick));
-
-    function handleCellClick(e) {
-        const clickedCell = e.target;
-        const clickedCellIndex = parseInt(clickedCell.getAttribute('data-cell'));
-        if (gameBoard[clickedCellIndex] !== "" || !gameActive) return;
-        clickedCell.classList.remove('hover');
-        registerCellPlayed(clickedCell, clickedCellIndex);
-        checkResults();
-    }
-
-    function registerCellPlayed(clickedCell, clickedCellIndex) {
-        gameBoard[clickedCellIndex] = clickedCell.textContent = currentPlayer.sign;
-
+        }
     }
     
     function checkResults() {
