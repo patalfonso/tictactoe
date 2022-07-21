@@ -124,4 +124,3 @@ const gameBoard = (function() {
         allCells.forEach(cell => cell.textContent = "");
     }
 })();
-
