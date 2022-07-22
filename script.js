@@ -22,8 +22,8 @@ const gameBoard = (function() {
     let gameActive = true;
     let currentPlayer = player1;
     let gameBoard = ['', '', '', '', '', '', '', '', ''];
-    let myWinsCounter = 0;
-    let theirWinsCounter = 0;
+    myWinsCounter = 0;
+    theirWinsCounter = 0;
 
     const winningConditions = [
         [0, 1, 2],
@@ -104,7 +104,14 @@ const gameBoard = (function() {
         if (roundWon || roundDraw) {
             statusMsg.style.cssText = 'color: var(--bright-color)';
             gameActive = false;
-            statusMsg.textContent = (roundWon) ? winningMessage() : drawMessage();
+
+            if (roundWon) {
+                statusMsg.textContent = winningMessage();
+                (currentPlayer === player1) ? myWins.textContent = ++myWinsCounter : theirWins.textContent = ++theirWinsCounter;
+            } else {
+                statusMsg.textContent = drawMessage();
+            }
+            
             return;
         }
 
