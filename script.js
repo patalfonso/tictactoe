@@ -4,10 +4,13 @@ const playerFactory = (name, sign) => {
 
 const gameBoard = (function() {
     const playerModeBtn = document.querySelector('.player');
+    const computerModeBtn = document.querySelector('.computer');
     const mainMenu = document.querySelector('.menu');
     const chooseOpponentMenu = document.querySelector('.choose-opponent');
+    const difficultyMenu = document.querySelector('.difficulty');
     const playerNamesMenu = document.querySelector('.player-names');
     const playerNamesForm = document.querySelector('#playerNamesForm');
+    const difficultyForm = document.querySelector('#difficultyForm');
     const yourName = document.querySelector('.your-name');
     const theirName = document.querySelector('.opponent-name');
     const allCells = document.querySelectorAll('.cell');
@@ -47,6 +50,11 @@ const gameBoard = (function() {
 
     });
 
+    computerModeBtn.addEventListener("click", function() {
+        chooseOpponentMenu.setAttribute('hidden', '');
+        difficultyMenu.removeAttribute('hidden');
+    })
+
     playerNamesForm.addEventListener('submit', function(e) {
         e.preventDefault();
 
@@ -57,6 +65,19 @@ const gameBoard = (function() {
         
         mainMenu.classList.add('deactivate');
     });
+
+    difficultyForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        player1.name = yourName.textContent = "Player";
+        player2.name = theirName.textContent = "Computer";
+
+        console.log(document.querySelector('[name="game-mode"]:checked').value);
+
+        mainMenu.classList.add('deactivate');
+    });
+
+    
 
     ['mouseenter', 'mouseleave', 'click'].forEach((event) => {
         allCells.forEach((cell) => cell.addEventListener(event, handleCell));
@@ -111,7 +132,7 @@ const gameBoard = (function() {
             } else {
                 statusMsg.textContent = drawMessage();
             }
-            
+
             return;
         }
 
