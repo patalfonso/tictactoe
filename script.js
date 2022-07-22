@@ -13,6 +13,8 @@ const gameBoard = (function() {
     const allCells = document.querySelectorAll('.cell');
     const statusMsg = document.querySelector('.status');
     const restartBtn = document.querySelector('.restart');
+    const myWins = document.querySelector('.my-wins');
+    const theirWins = document.querySelector('.their-wins');
 
     let player1 = playerFactory("Player 1", 'X');
     let player2 = playerFactory("Player 2", 'O');
@@ -20,6 +22,8 @@ const gameBoard = (function() {
     let gameActive = true;
     let currentPlayer = player1;
     let gameBoard = ['', '', '', '', '', '', '', '', ''];
+    let myWinsCounter = 0;
+    let theirWinsCounter = 0;
 
     const winningConditions = [
         [0, 1, 2],
