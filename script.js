@@ -25,8 +25,9 @@ const gameBoard = (function() {
     let gameActive = true;
     let currentPlayer = player1;
     let gameBoard = ['', '', '', '', '', '', '', '', ''];
-    myWinsCounter = 0;
-    theirWinsCounter = 0;
+    let myWinsCounter = 0;
+    let theirWinsCounter = 0;
+    let difficultyMode = null;
 
     const winningConditions = [
         [0, 1, 2],
@@ -72,7 +73,7 @@ const gameBoard = (function() {
         player1.name = yourName.textContent = "Player";
         player2.name = theirName.textContent = "Computer";
 
-        console.log(document.querySelector('[name="game-mode"]:checked').value);
+        difficultyMode = document.querySelector('[name="game-mode"]:checked').value
 
         mainMenu.classList.add('deactivate');
     });
@@ -87,6 +88,7 @@ const gameBoard = (function() {
         const cellNode = e.target;
         const cellNodeIndex = parseInt(cellNode.getAttribute('data-cell'));
         if (gameBoard[cellNodeIndex] !== "" || !gameActive) return;
+        if (currentPlayer === player2 && difficultyMode) return;
 
         switch(e.type) {
             case "mouseenter":
@@ -97,12 +99,70 @@ const gameBoard = (function() {
                 cellNode.classList.remove('hover');
                 cellNode.textContent = '';
                 break;
-            default: 
+            default:
                 cellNode.classList.remove('hover');
                 gameBoard[cellNodeIndex] = cellNode.textContent = currentPlayer.sign;
                 checkResults();
-
+                if (difficultyMode) setTimeout(function() {computerMove(cellNodeIndex)}, 500);
         }
+    }
+
+    function computerMove(cellNodeIndex) {
+        if (!gameActive) return;
+        switch(difficultyMode) {
+            case "easy":
+                while (true) {
+                    cIndex = Math.floor(Math.random()*gameBoard.length);
+                    if (!gameBoard[cIndex]) break;
+                }
+                break;
+
+            case "medium":
+                for (let winCondition of winningConditions) {
+                    if(winCondition.includes(cellNodeIndex)) {
+                        for (var ig = 0; ig < 4; ig++) {
+                            cIndex = ig;
+                            if (!gameBoard[cIndex]) break;
+                        }
+                    }
+                };
+                break;
+
+            case "hard":
+                for (var i = 0; i < winningConditions.length; i++) {
+                    if(!winningConditions[i].includes(cellNodeIndex)) continue;
+                    correct = 0;
+                    for (var ii = 0; ii < winningConditions[i].length; ii++) {
+                        if (gameBoard[winningConditions[i][ii]] == "X") correct++;
+                        if (!gameBoard[winningConditions[i][ii]]) {
+                            cIndex = winningConditions[i][ii];
+                        };
+                        bestSpot = null;
+                        if (correct == 2 && ii == 2) {
+                            for (var ig = 0; ig < 4; ig++) {
+                                cIndex = winningConditions[i][ig];
+                                bestSpot = winningConditions[i][ig];
+                                if (!gameBoard[cIndex]) break;
+                            };
+                        };
+                    };
+                    if (bestSpot) break;
+                };
+                if (typeof(cIndex) == "undefined") {
+                    for (var i = 0; i < winningConditions.length; i++) {
+                        if(winningConditions[i].includes(cellNodeIndex)) {
+                            cIndex = Math.floor(Math.random()*winningConditions[i].length);
+                            while (true) {
+                                if (!gameBoard[cIndex]) break;
+                                cIndex = Math.floor(Math.random()*gameBoard.length);
+                            }
+                        }
+                    };
+                };
+                break;
+        }
+        gameBoard[cIndex] = allCells[cIndex].textContent = currentPlayer.sign;
+        checkResults();
     }
     
     function checkResults() {
