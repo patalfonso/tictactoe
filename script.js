@@ -117,13 +117,47 @@ const gameBoard = (function() {
                 break;
             case "medium":
                 bestSpot = availableSpaces[Math.floor(Math.random()*availableSpaces.length)];
+                console.log('start')
                 loop1:
                 for (let winCondition of winningConditions) {
+                    for (let i = 0; i < gameBoard.length; i++) {
+                        if (!winCondition.includes(i) && gameBoard[i] != player1.sign) continue;
+                        console.log(winCondition)
+                        continue loop1;
+                    }
+                }
+                console.log('end')
+                //if(winCondition.includes(player2.sign)) {
+                    /*
+                    let emptySpot = null;
+                    let computerWinCondition = 0;
+                    for (let spot of winCondition) {
+                        if (gameBoard[spot] == player2.sign) computerWinCondition++;
+                        if (!gameBoard[spot] && !emptySpot) emptySpot = spot;
+                        console.log(computerWinCondition)
+                        if (computerWinCondition == 2 && emptySpot) {
+                            bestSpot = spot;
+                            break loop1;
+                        }
+                    }
+                    */
+                //}
+                /*for (let winCondition of winningConditions) {
                     if(!winCondition.includes(cellNodeIndex)) continue;
-                    let playerCo = 0;
+                    let playerWinCondition = 0;
+                    let computerWinCondition = 0;
                     for (let position of winCondition) {
-                        if (gameBoard[position] == 'X') {++playerCo;}
-                        if (playerCo == 2) {
+                        if (gameBoard[position] == player1.sign) playerWinCondition++;
+                        if (gameBoard[position] == player2.sign) computerWinCondition++;
+                        if (computerWinCondition == 2) {
+                            for (let spot of winCondition) {
+                                if (!gameBoard[spot]) {
+                                    bestSpot = spot;
+                                    break loop1;
+                                }
+                            }
+                        }
+                        if (playerWinCondition == 2) {
                             for (let spot of winCondition) {
                                 if (!gameBoard[spot]) {
                                     bestSpot = spot;
@@ -132,7 +166,7 @@ const gameBoard = (function() {
                             }
                         }
                     }
-                }
+                }*/
                 break;
             case "hard":
                 bestSpot = availableSpaces[Math.floor(Math.random()*availableSpaces.length)];
