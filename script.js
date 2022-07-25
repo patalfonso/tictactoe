@@ -103,76 +103,51 @@ const gameBoard = (function() {
                 cellNode.classList.remove('hover');
                 gameBoard[cellNodeIndex] = cellNode.textContent = currentPlayer.sign;
                 checkResults();
-                if (difficultyMode && gameActive) setTimeout(function() {computerMove(cellNodeIndex)}, 100);
+                if (difficultyMode && gameActive) setTimeout(computerMove, 500);
         }
     }
 
-    function computerMove(cellNodeIndex) {
-        let availableSpaces = [];
-        gameBoard.forEach(function(value,index) {if (!value) availableSpaces.push(index)});
-        
-        switch(difficultyMode) {
-            case "easy":
-                bestSpot = availableSpaces[Math.floor(Math.random()*availableSpaces.length)];
-                break;
-            case "medium":
-                bestSpot = availableSpaces[Math.floor(Math.random()*availableSpaces.length)];
-                console.log('start')
-                loop1:
-                for (let winCondition of winningConditions) {
-                    for (let i = 0; i < gameBoard.length; i++) {
-                        if (!winCondition.includes(i) && gameBoard[i] != player1.sign) continue;
-                        console.log(winCondition)
-                        continue loop1;
-                    }
+    function computerMove() {
+        let availableSpaces = gameBoard.map((value,index) => {return index}).filter((value) => {return !gameBoard[value]});
+        let winningConditionsForPlayer = (playerSign) => winningConditions.filter(function(condition) {
+            return condition.every(function(index) {
+                return gameBoard[index] == playerSign || !gameBoard[index];
+            });
+        });
+
+        let getBestMoveForPlayer = (playerSign) => {
+            let lowestScore = Infinity;
+            let conditionToWin;
+            for (let conditionSpaces of winningConditionsForPlayer(playerSign)) {
+                let score = 0;
+                for (let space of conditionSpaces) {
+                    if (availableSpaces.includes(space)) score++;
                 }
-                console.log('end')
-                //if(winCondition.includes(player2.sign)) {
-                    /*
-                    let emptySpot = null;
-                    let computerWinCondition = 0;
-                    for (let spot of winCondition) {
-                        if (gameBoard[spot] == player2.sign) computerWinCondition++;
-                        if (!gameBoard[spot] && !emptySpot) emptySpot = spot;
-                        console.log(computerWinCondition)
-                        if (computerWinCondition == 2 && emptySpot) {
-                            bestSpot = spot;
-                            break loop1;
-                        }
-                    }
-                    */
-                //}
-                /*for (let winCondition of winningConditions) {
-                    if(!winCondition.includes(cellNodeIndex)) continue;
-                    let playerWinCondition = 0;
-                    let computerWinCondition = 0;
-                    for (let position of winCondition) {
-                        if (gameBoard[position] == player1.sign) playerWinCondition++;
-                        if (gameBoard[position] == player2.sign) computerWinCondition++;
-                        if (computerWinCondition == 2) {
-                            for (let spot of winCondition) {
-                                if (!gameBoard[spot]) {
-                                    bestSpot = spot;
-                                    break loop1;
-                                }
-                            }
-                        }
-                        if (playerWinCondition == 2) {
-                            for (let spot of winCondition) {
-                                if (!gameBoard[spot]) {
-                                    bestSpot = spot;
-                                    break loop1;
-                                }
-                            }
-                        }
-                    }
-                }*/
-                break;
-            case "hard":
-                bestSpot = availableSpaces[Math.floor(Math.random()*availableSpaces.length)];
-                break;
+                if (score < lowestScore) {lowestScore = score;conditionToWin=conditionSpaces;}
+            }
+            if (!conditionToWin) return;
+            for (let position of conditionToWin) {
+                if (availableSpaces.includes(position) && lowestScore == 1) {
+                    bestMove = position;
+                    return;
+                }
+            }
         }
-        gameBoard[bestSpot] = allCells[bestSpot].textContent = currentPlayer.sign;
+
+        let bestMove = availableSpaces[Math.floor(Math.random()*availableSpaces.length)];
+        while (difficultyMode != "easy") {
+            getBestMoveForPlayer(player1.sign);
+            if (difficultyMode == "hard") {
+                if (availableSpaces.includes(4)) {
+                    bestMove = 4;
+                    break;
+                }
+                getBestMoveForPlayer(player2.sign);
+            }
+            break;
+        }
+
+        gameBoard[bestMove] = allCells[bestMove].textContent = currentPlayer.sign;
         checkResults();
     }
     
