@@ -108,45 +108,54 @@ const gameBoard = (function() {
     }
 
     function computerMove() {
-        let availableSpaces = gameBoard.map((value,index) => {return index}).filter((value) => {return !gameBoard[value]});
-        let winningConditionsForPlayer = (playerSign) => winningConditions.filter(function(condition) {
-            return condition.every(function(index) {
-                return gameBoard[index] == playerSign || !gameBoard[index];
-            });
-        });
+
+        //an array of available (or empty) indexes from gameBoard
+        let availableSpaces = gameBoard.map((value, index) => index).filter((value) => !gameBoard[value]);
+
+        //declares bestMove with a random element from availableSpaces array
+        let bestMove = availableSpaces[Math.floor(Math.random()*availableSpaces.length)];
+
+        //an array of all possible winCondition(s) of a particular player ('X' or 'O')
+        let winningConditionsForPlayer = (playerSign) => winningConditions.filter((winCondition) => winCondition.every((index) => gameBoard[index] == playerSign || !gameBoard[index]));
 
         let getBestMoveForPlayer = (playerSign) => {
-            let lowestScore = Infinity;
-            let conditionToWin;
-            for (let conditionSpaces of winningConditionsForPlayer(playerSign)) {
-                let score = 0;
-                for (let space of conditionSpaces) {
-                    if (availableSpaces.includes(space)) score++;
+            let leastSpacesNeededToWin = Infinity; // Start the least spaces needed to win with a number greater 3
+            let bestWinCondition; // Define best win condition
+
+            for (let winCondition of winningConditionsForPlayer(playerSign)) { // For each win condition that the player can win ("X" or "O")
+                let spacesNeededToWin = 0; // Define spaces needed to win starting at 0
+
+                for (let index of winCondition) { // Grabs all index spots from every winCondition
+                    if (availableSpaces.includes(index)) spacesNeededToWin++; // Counts how many spaces needed to fulfill the winCondition 1 or 2 or 3
                 }
-                if (score < lowestScore) {lowestScore = score;conditionToWin=conditionSpaces;}
+                if (spacesNeededToWin < leastSpacesNeededToWin) { // If spaces needed to win is less than any previous counts then do this
+                    leastSpacesNeededToWin = spacesNeededToWin; // Change the previous amount of spaces needed to win with the new one that needs less spaces to win
+                    bestWinCondition = winCondition; // Set best win condition
+                }
             }
-            if (!conditionToWin) return;
-            for (let position of conditionToWin) {
-                if (availableSpaces.includes(position) && lowestScore == 1) {
-                    bestMove = position;
-                    return;
-                }
+
+            if (!bestWinCondition) return; // If no bet win condition set then break out and we will just use the random bestMove set at beginning
+
+            // Grab the empty spot from the best win condition and set bestMove
+            for (let index of bestWinCondition) { 
+                if (availableSpaces.includes(index) && leastSpacesNeededToWin == 1) bestMove = index;
             }
         }
 
-        let bestMove = availableSpaces[Math.floor(Math.random()*availableSpaces.length)];
-        while (difficultyMode != "easy") {
-            getBestMoveForPlayer(player1.sign);
+        //Execute for medium and hard mode
+        while (difficultyMode == "medium" || difficultyMode == "hard") {
+            getBestMoveForPlayer(player1.sign); //best block move
             if (difficultyMode == "hard") {
                 if (availableSpaces.includes(4)) {
                     bestMove = 4;
                     break;
                 }
-                getBestMoveForPlayer(player2.sign);
+                getBestMoveForPlayer(player2.sign); //best win move
             }
             break;
         }
 
+        //Updates Gameboard UI and gameBoard array
         gameBoard[bestMove] = allCells[bestMove].textContent = currentPlayer.sign;
         checkResults();
     }
