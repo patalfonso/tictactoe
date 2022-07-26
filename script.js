@@ -18,6 +18,7 @@ const gameBoard = (function() {
     const restartBtn = document.querySelector('.restart');
     const myWins = document.querySelector('.my-wins');
     const theirWins = document.querySelector('.their-wins');
+    const allForms = document.querySelectorAll('form');
 
     let player1 = playerFactory("Player 1", 'X');
     let player2 = playerFactory("Player 2", 'O');
@@ -56,29 +57,24 @@ const gameBoard = (function() {
         difficultyMenu.removeAttribute('hidden');
     })
 
-    playerNamesForm.addEventListener('submit', function(e) {
+    allForms.forEach((form) => form.addEventListener("submit", function(e) {
         e.preventDefault();
 
-        player1.name = yourName.textContent = document.querySelector('[name="player1"]').value;
-        player2.name = theirName.textContent = document.querySelector('[name="player2"]').value;
+        switch (e.target) {
+            case playerNamesForm:
+                player1.name = yourName.textContent = document.querySelector('[name="player1"]').value;
+                player2.name = theirName.textContent = document.querySelector('[name="player2"]').value;
+                break;
+            case difficultyForm:
+                player1.name = yourName.textContent = "Player";
+                player2.name = theirName.textContent = "Computer";
+                difficultyMode = document.querySelector('[name="game-mode"]:checked').value
+        }
 
         statusMsg.textContent = currentPlayerTurn();
-        
         mainMenu.classList.add('deactivate');
-    });
+    }));
 
-    difficultyForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-
-        player1.name = yourName.textContent = "Player";
-        player2.name = theirName.textContent = "Computer";
-
-        difficultyMode = document.querySelector('[name="game-mode"]:checked').value
-
-        mainMenu.classList.add('deactivate');
-    });
-
-    
 
     ['mouseenter', 'mouseleave', 'click'].forEach((event) => {
         allCells.forEach((cell) => cell.addEventListener(event, handleCell));
