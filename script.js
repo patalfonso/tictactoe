@@ -116,7 +116,7 @@ const gameBoard = (function() {
 
         let getBestMoveForPlayer = (playerSign) => {
             let leastSpacesNeededToWin = Infinity; // Start the least spaces needed to win with a number greater 3
-            let bestWinCondition; // Define best win condition
+            let bestWinCondition;
 
             for (let winCondition of winningConditionsForPlayer(playerSign)) { // For each win condition that the player can win ("X" or "O")
                 let spacesNeededToWin = 0; // Define spaces needed to win starting at 0
@@ -130,7 +130,7 @@ const gameBoard = (function() {
                 }
             }
 
-            if (!bestWinCondition) return; // If no bet win condition set then break out and we will just use the random bestMove set at beginning
+            if (!bestWinCondition) return; // If no best win condition set then break out and we will just use the random bestMove set at beginning
 
             // Grab the empty spot from the best win condition and set bestMove
             for (let index of bestWinCondition) { 
