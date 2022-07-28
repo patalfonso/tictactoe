@@ -196,14 +196,12 @@ const gameBoard = (function() {
 
     } 
 
-    restartBtn.addEventListener("click", restartGame);
-
-    function restartGame() {
+    restartBtn.addEventListener("click", function() {
         gameActive = true;
         currentPlayer = player1;
         gameBoard = ["", "", "", "", "", "", "", "", ""];
         statusMsg.style.cssText = 'color: var(--dark-color)';
         statusMsg.textContent = currentPlayerTurn();
         allCells.forEach(cell => cell.textContent = "");
-    }
+    });
 })();
